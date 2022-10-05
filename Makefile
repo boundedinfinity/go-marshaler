@@ -27,7 +27,7 @@ commit:
 	git push origin master
 
 tag:
-	git tag -a $(tag) -m "$(tag)" -f
+	git tag -fa $(tag) -m "$(tag)"
 	git push origin $(tag)
 
 publish: generate
