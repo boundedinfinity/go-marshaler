@@ -15,7 +15,7 @@ func unmarshalJson[T any](ss *[]T, bs []byte) error {
 	case "{":
 		var x T
 
-		if err := json.Unmarshal(bs, &s); err != nil {
+		if err := json.Unmarshal(bs, &x); err != nil {
 			return err
 		}
 

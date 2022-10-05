@@ -12,8 +12,8 @@ func unmarshalYaml[T any](ss *[]T, bs []byte) error {
 	d := yaml.NewDecoder(bytes.NewReader(bs))
 
 	for {
-		var s *T
-		err := d.Decode(s)
+		var s T
+		err := d.Decode(&s)
 
 		if errors.Is(err, io.EOF) {
 			break
@@ -23,11 +23,7 @@ func unmarshalYaml[T any](ss *[]T, bs []byte) error {
 			return err
 		}
 
-		if s == nil {
-			continue
-		}
-
-		*ss = append(*ss, *s)
+		*ss = append(*ss, s)
 	}
 
 	return nil

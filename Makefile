@@ -15,6 +15,9 @@ build:
 install:
 	go install
 
+test: generate
+	go test ./...
+
 generate:
 	go generate ./...
 
