@@ -28,7 +28,7 @@ commit:
 
 tag:
 	git tag -fa $(tag) -m "$(tag)"
-	git push origin $(tag)
+	git push -f --tags
 
 publish: generate
 	make commit m=$(tag)
