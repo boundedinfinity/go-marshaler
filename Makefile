@@ -9,10 +9,10 @@ purge:
 	rm -rf objecttype/*.enum.go
 	rm -rf stringformat/*.enum.go
 
-build:
+build: generate
 	go build
 
-generate:
+generate: purge
 	go generate ./...
 
 install: generate
@@ -31,5 +31,5 @@ tag:
 	git push -f origin $(tag)
 
 publish: test
-	make commit m=$(tag)
-	make tag tag=$(tag)
+	make commit m=$(m)
+	make tag tag=$(m)
