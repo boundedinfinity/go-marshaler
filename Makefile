@@ -12,14 +12,14 @@ purge:
 build:
 	go build
 
-install:
+generate:
+	go generate ./...
+
+install: generate
 	go install
 
 test: generate
 	go test ./...
-
-generate:
-	go generate ./...
 
 commit:
 	git add . || true
@@ -28,8 +28,8 @@ commit:
 
 tag:
 	git tag -fa $(tag) -m "$(tag)"
-	git push -f --tags
+	git push -f origin $(tag)
 
-publish: generate
+publish: test
 	make commit m=$(tag)
 	make tag tag=$(tag)
