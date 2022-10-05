@@ -23,7 +23,7 @@ generate:
 
 commit:
 	git add . || true
-	git commit -m "$(m)"
+	git commit -m "$(m)" || true
 	git push origin master
 
 tag:
