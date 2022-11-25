@@ -1,19 +1,12 @@
 package marshaler
 
 import (
-	"errors"
-	"fmt"
-
-	"github.com/boundedinfinity/mimetyper/mime_type"
+	"github.com/boundedinfinity/go-commoner/errorer"
 )
 
 var (
-	ErrMimeTypeUnsupported  = errors.New("unknown MIME type")
-	ErrMimeTypeUnsupportedV = func(v mime_type.MimeType) error {
-		return errV(v.String(), ErrMimeTypeUnsupported)
-	}
+	ErrMimeTypeUnsupported  = errorer.Errorf("unknown MIME type")
+	ErrMimeTypeUnsupportedV = errorer.Errorfn(ErrMimeTypeUnsupported)
+	ErrNotFile              = errorer.Errorf("not a file")
+	ErrNotFileV             = errorer.Errorfn(ErrNotFile)
 )
-
-func errV(v string, err error) error {
-	return fmt.Errorf("%v : %w", v, err)
-}

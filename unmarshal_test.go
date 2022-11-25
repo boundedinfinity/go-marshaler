@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/boundedinfinity/go-marshaler"
+	"github.com/boundedinfinity/mimetyper/mime_type"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -12,34 +13,34 @@ func Test_UnmarshalFromPath(t *testing.T) {
 		Thing string `json:"thing" yaml:"thing"`
 	}
 
-	expected := []Type1{
-		{Thing: "a"}, {Thing: "b"}, {Thing: "c"},
-		{Thing: "a"}, {Thing: "b"}, {Thing: "c"},
+	expected := map[string]marshaler.UnmarshaledContent[Type1]{
+		"test_data/concrete/test.json": {
+			Value:    Type1{Thing: "a"},
+			MimeType: mime_type.ApplicationJson,
+		},
+		"test_data/concrete/test.yaml": {
+			Value:    Type1{Thing: "b"},
+			MimeType: mime_type.ApplicationXYaml},
+		"test_data/concrete/test.yml": {
+			Value:    Type1{Thing: "c"},
+			MimeType: mime_type.ApplicationXYaml,
+		},
+		"test_data/concrete/dir1/test.json": {
+			Value:    Type1{Thing: "a"},
+			MimeType: mime_type.ApplicationJson,
+		},
+		"test_data/concrete/dir1/test.yaml": {
+			Value:    Type1{Thing: "b"},
+			MimeType: mime_type.ApplicationXYaml,
+		},
+		"test_data/concrete/dir1/test.yml": {
+			Value:    Type1{Thing: "c"},
+			MimeType: mime_type.ApplicationXYaml,
+		},
 	}
-	var actual []Type1
 
-	err := marshaler.UnmarshalFromPath("./test_data", &actual)
-
-	assert.Nil(t, err)
-	assert.ElementsMatch(t, expected, actual)
-}
-
-func Test_UnmarshalWithContextFromPath(t *testing.T) {
-	type Type1 struct {
-		Thing string `json:"thing" yaml:"thing"`
-	}
-
-	expected := map[string][]Type1{
-		"test_data/test.json":      {{Thing: "a"}},
-		"test_data/test.yaml":      {{Thing: "b"}},
-		"test_data/test.yml":       {{Thing: "c"}},
-		"test_data/dir1/test.json": {{Thing: "a"}},
-		"test_data/dir1/test.yaml": {{Thing: "b"}},
-		"test_data/dir1/test.yml":  {{Thing: "c"}},
-	}
-
-	actual := make(map[string][]Type1)
-	err := marshaler.UnmarshalWithContextFromPath("./test_data", actual)
+	actual := make(map[string]marshaler.UnmarshaledContent[Type1])
+	err := marshaler.UnmarshalFromPath("./test_data/concrete", actual)
 
 	assert.Nil(t, err)
 	assert.Equal(t, expected, actual)

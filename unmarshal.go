@@ -1,73 +1,52 @@
 package marshaler
 
 import (
-	"fmt"
+	"encoding/json"
 	"io/fs"
-	"io/ioutil"
 
 	"github.com/boundedinfinity/go-commoner/pather"
-	"github.com/boundedinfinity/go-commoner/trier"
-	"github.com/boundedinfinity/mimetyper/file_extention"
 	"github.com/boundedinfinity/mimetyper/mime_type"
+	"gopkg.in/yaml.v3"
 )
 
-func Unmarshal[T any](ss *[]T, mt mime_type.MimeType, bs []byte) error {
+func UnmarshalFromBytes[T any](data []byte, v T, mt mime_type.MimeType) error {
 	realmt := mime_type.ResolveMimeType(mt)
+	var err error
 
 	switch realmt {
 	case mime_type.ApplicationJson:
-		return unmarshalJson(ss, bs)
+		err = json.Unmarshal(data, v)
 	case mime_type.ApplicationXYaml:
-		return unmarshalYaml(ss, bs)
+		err = yaml.Unmarshal(data, v)
 	default:
-		return ErrMimeTypeUnsupportedV(mt)
+		err = ErrMimeTypeUnsupportedV(mt)
 	}
+
+	return err
 }
 
-func UnmarshalFromFile[T any](path string, out *[]T) error {
-	if !pather.IsFile(path) {
-		return fmt.Errorf("%v is not a file", path)
-	}
+func UnmarshalFromFile[T any](path string) (T, mime_type.MimeType, error) {
+	var v T
 
-	ext := pather.Ext(path)
-	mt, err := file_extention.GetMimeType(ext)
+	data, mt, err := ReadFromFile(path)
 
 	if err != nil {
-		return err
+		return v, mime_type.Unkown, err
 	}
 
-	bs, err := ioutil.ReadFile(path)
-
-	if err != nil {
-		return err
+	if err := UnmarshalFromBytes(data, &v, mt); err != nil {
+		return v, mime_type.Unkown, err
 	}
 
-	var items []T
-
-	if err := Unmarshal(&items, mt, bs); err != nil {
-		return err
-	}
-
-	*out = append(*out, items...)
-
-	return nil
+	return v, mt, nil
 }
 
-func UnmarshalFromPath[T any](root string, out *[]T) error {
-	m := make(map[string][]T)
-
-	if err := UnmarshalWithContextFromPath(root, m); err != nil {
-		return err
-	}
-
-	for _, items := range m {
-		*out = append(*out, items...)
-	}
-
-	return nil
+type UnmarshaledContent[V any] struct {
+	Value    V
+	MimeType mime_type.MimeType
 }
 
-func UnmarshalWithContextFromPath[T any](root string, out map[string][]T) error {
+func UnmarshalFromPath[T any](root string, m map[string]UnmarshaledContent[T]) error {
 	var paths []string
 
 	pather.WalkFiles(root, filterByMimeType, func(path string, info fs.FileInfo) error {
@@ -76,21 +55,17 @@ func UnmarshalWithContextFromPath[T any](root string, out map[string][]T) error 
 	})
 
 	for _, path := range paths {
-		var items []T
+		v, mt, err := UnmarshalFromFile[T](path)
 
-		if err := UnmarshalFromFile(path, &items); err != nil {
+		if err != nil {
 			return err
 		}
 
-		out[path] = items[:]
+		m[path] = UnmarshaledContent[T]{
+			Value:    v,
+			MimeType: mt,
+		}
 	}
 
 	return nil
-}
-
-func TryUnmarshalFromPath[T any](root string) trier.Try[[]T] {
-	var items []T
-	err := UnmarshalFromPath(root, &items)
-
-	return trier.Complete(items, err)
 }
