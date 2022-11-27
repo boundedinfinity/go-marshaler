@@ -5,7 +5,7 @@ import (
 	"io/fs"
 
 	"github.com/boundedinfinity/go-commoner/pather"
-	"github.com/boundedinfinity/mimetyper/mime_type"
+	"github.com/boundedinfinity/go-mimetyper/mime_type"
 	"gopkg.in/yaml.v3"
 )
 

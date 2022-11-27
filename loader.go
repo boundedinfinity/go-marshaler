@@ -5,13 +5,17 @@ import (
 	"io/ioutil"
 
 	"github.com/boundedinfinity/go-commoner/pather"
-	"github.com/boundedinfinity/mimetyper/file_extention"
-	"github.com/boundedinfinity/mimetyper/mime_type"
+	"github.com/boundedinfinity/go-mimetyper/file_extention"
+	"github.com/boundedinfinity/go-mimetyper/mime_type"
 )
 
 func MimeTypeFromFile(path string) (mime_type.MimeType, error) {
-	if !pather.IsFile(path) {
-		return mime_type.Unkown, ErrNotFileV(path)
+	if ok, err := pather.IsFile(path); err != nil {
+		return mime_type.Unkown, err
+	} else {
+		if !ok {
+			return mime_type.Unkown, ErrNotFileV(path)
+		}
 	}
 
 	ext := pather.Ext(path)

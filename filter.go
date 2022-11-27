@@ -5,8 +5,8 @@ import (
 
 	"github.com/boundedinfinity/go-commoner/pather"
 	"github.com/boundedinfinity/go-commoner/slicer"
-	"github.com/boundedinfinity/mimetyper/file_extention"
-	"github.com/boundedinfinity/mimetyper/mime_type"
+	"github.com/boundedinfinity/go-mimetyper/file_extention"
+	"github.com/boundedinfinity/go-mimetyper/mime_type"
 )
 
 var (

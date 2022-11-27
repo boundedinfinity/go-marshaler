@@ -5,7 +5,7 @@ import (
 
 	"github.com/boundedinfinity/go-marshaler"
 	"github.com/boundedinfinity/go-marshaler/trier"
-	"github.com/boundedinfinity/mimetyper/mime_type"
+	"github.com/boundedinfinity/go-mimetyper/mime_type"
 	"github.com/stretchr/testify/assert"
 )
 
