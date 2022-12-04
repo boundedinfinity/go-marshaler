@@ -1,9 +1,5 @@
-github.com/boundedinfinity/go-commoner v1.0.17 h1:AkQg2SeS69npVoS6IS2KmVzJcTg1FsByIpM6WVbSu4I=
-github.com/boundedinfinity/go-commoner v1.0.17/go.mod h1:NtJk5jQO+YEXMZ9T+vTpQE3tCFTz+8Sr/N+ofQi5FSg=
 github.com/boundedinfinity/go-mimetyper v1.0.13 h1:o3WwNU4hUc3uZ96I2nzgjbi4KMBnlAmxTn4HqQe4YJY=
 github.com/boundedinfinity/go-mimetyper v1.0.13/go.mod h1:ZkUhqDBjrxXx2EVNAwKWucHG3dTq7arPMBXAgaBUfns=
-github.com/boundedinfinity/mimetyper v1.0.6 h1:zL39YlGP4j/8i+/AjdhvMuDV6/tFgx9Yygvm4hkjTag=
-github.com/boundedinfinity/mimetyper v1.0.6/go.mod h1:8VoygZLe+pCFV0VeYCcd+hieLyOOEQJ4d++xJoP9LZ4=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=

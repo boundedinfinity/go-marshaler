@@ -4,6 +4,7 @@ import (
 	"io/fs"
 	"io/ioutil"
 
+	"github.com/boundedinfinity/go-commoner/extentioner"
 	"github.com/boundedinfinity/go-commoner/pather"
 	"github.com/boundedinfinity/go-mimetyper/file_extention"
 	"github.com/boundedinfinity/go-mimetyper/mime_type"
@@ -18,7 +19,7 @@ func MimeTypeFromFile(path string) (mime_type.MimeType, error) {
 		}
 	}
 
-	ext := pather.Ext(path)
+	ext := extentioner.Ext(path)
 	mt, err := file_extention.GetMimeType(ext)
 
 	return mt, err

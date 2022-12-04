@@ -3,7 +3,7 @@ package marshaler
 import (
 	"os"
 
-	"github.com/boundedinfinity/go-commoner/pather"
+	"github.com/boundedinfinity/go-commoner/extentioner"
 	"github.com/boundedinfinity/go-commoner/slicer"
 	"github.com/boundedinfinity/go-mimetyper/file_extention"
 	"github.com/boundedinfinity/go-mimetyper/mime_type"
@@ -18,7 +18,7 @@ var (
 
 func filterByMimeType(path string, info os.FileInfo) bool {
 	supportedExts, _ := file_extention.GetExts(SUPPORTED_TYPES...)
-	ext := pather.Ext(path)
+	ext := extentioner.Ext(path)
 
 	if slicer.Contains(supportedExts, file_extention.FileExtention(ext)) {
 		return true
